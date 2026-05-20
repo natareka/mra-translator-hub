@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 
 from dotenv import load_dotenv
+import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(BASE_DIR / ".env")
@@ -30,6 +31,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -65,7 +67,22 @@ DATABASES = {
         "NAME": BASE_DIR / "db.sqlite3",
     }
 }
-
+# # ── MySQL ─────────────────────────────────────────────────────
+# DATABASES = {
+#     'default': {
+#         'ENGINE':   'django.db.backends.mysql',
+#         'NAME':     env('DB_NAME',     'raga_studio'),
+#         'USER':     env('DB_USER',     'root'),
+#         'PASSWORD': env('DB_PASSWORD', '2318'),
+#         'HOST':     env('DB_HOST',     'localhost'),
+#         'PORT':     env('DB_PORT',     '3306'),
+#         'OPTIONS': {
+#             'charset':         'utf8mb4',
+#             'use_unicode':     True,
+#             'connect_timeout': 10,
+#         },
+#     }
+# }
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
     {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
@@ -80,6 +97,8 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 STATICFILES_DIRS = [BASE_DIR.parent / "frontend" / "static"]
+STATIC_ROOT = BASE_DIR / "staticfiles"
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
@@ -102,10 +121,10 @@ FILE_UPLOAD_MAX_MEMORY_SIZE = 25 * 1024 * 1024
 
 EMAIL_HOST = os.getenv("EMAIL_HOST", "localhost")
 EMAIL_PORT = int(os.getenv("EMAIL_PORT", "25"))
-EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", "")
-EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "")
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", "rekamca7@gmail.com")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "ecjbhjhlahzbmapx")
 EMAIL_USE_TLS = env_bool("EMAIL_USE_TLS", True)
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER or "no-reply@mra-translator.local"
-ADMIN_EMAIL = os.getenv("ADMIN_EMAIL", "owner@mra-translator.com")
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER or "rekamca7@gmail.com"
+ADMIN_EMAIL = os.getenv("ADMIN_EMAIL", "rekamca7@gmail.com")
 
 TESSERACT_CMD = os.getenv("TESSERACT_CMD", "")

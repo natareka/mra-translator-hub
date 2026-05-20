@@ -1,0 +1,1 @@
+web: gunicorn mra_backend.wsgi:application
