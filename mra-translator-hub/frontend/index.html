@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MRA Translator Hub</title>
+    <link rel="icon" type="image/svg+xml" href="static/favicon.svg" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <link href="static/css/styles.css" rel="stylesheet" />
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg fixed-top navbar-dark nav-blur">
+      <div class="container">
+        <a class="navbar-brand fw-black" href="#">MRA Translator Hub</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navMenu">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link" href="#translate">Translate</a></li>
+            <li class="nav-item"><a class="nav-link" href="#files">Files</a></li>
+            <li class="nav-item"><a class="nav-link" href="#api">API</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <header class="hero min-vh-100 d-flex align-items-center text-white">
+      <div class="container py-5">
+        <div class="row align-items-center g-5">
+          <div class="col-lg-6" data-aos="fade-up">
+            <p class="eyebrow">Multilingual translator and voice assistant</p>
+            <h1 class="display-1 fw-black lh-1">MRA Translator Hub</h1>
+            <p class="lead mt-4">Translate text, voice, and files with a Tamil-first workflow, OCR extraction, MP3 speech output, and automated owner notifications.</p>
+            <a href="#translate" class="btn btn-accent btn-lg mt-3">Start translating</a>
+          </div>
+          <div class="col-lg-6" data-aos="fade-left">
+            <section id="translate" class="glass-panel p-4 p-md-5">
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label class="form-label">Source language</label>
+                  <select id="sourceLang" class="form-select"></select>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Target language</label>
+                  <select id="targetLang" class="form-select"></select>
+                </div>
+                <div class="col-12">
+                  <label class="form-label">Input text</label>
+                  <textarea id="sourceText" class="form-control" rows="5" placeholder="Type, paste, or record voice"></textarea>
+                </div>
+                <div class="col-12 d-flex flex-wrap gap-2">
+                  <button id="translateBtn" class="btn btn-accent">Translate</button>
+                  <button id="voiceBtn" class="btn btn-outline-light">Record voice</button>
+                </div>
+                <div class="col-12">
+                  <p id="voiceStatus" class="small mb-0 text-white-50">Voice ready. Click Record voice, speak, then click Stop recording.</p>
+                </div>
+                <div class="col-12">
+                  <label class="form-label">Translated output</label>
+                  <textarea id="translatedText" class="form-control" rows="5" readonly></textarea>
+                </div>
+                <div class="col-12 d-flex flex-wrap gap-2">
+                  <button id="copyBtn" class="btn btn-outline-light">Copy to clipboard</button>
+                  <button id="listenBtn" class="btn btn-outline-light">Listen</button>
+                  <button id="downloadTextBtn" class="btn btn-outline-light">Download text</button>
+                </div>
+                <div class="col-12">
+                  <audio id="ttsAudio" class="w-100 d-none mt-2" controls preload="none"></audio>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section id="files" class="section-pad">
+        <div class="container">
+          <div class="row g-5 align-items-center">
+            <div class="col-lg-5" data-aos="fade-up">
+              <p class="eyebrow text-teal">Smart file converter</p>
+              <h2 class="display-4 fw-black">Upload and translate whole documents.</h2>
+              <p class="text-muted">Drag and drop PDF, DOCX, TXT, JPG, PNG, or PPTX. The backend extracts text, translates content, generates a download file, and emails the owner.</p>
+            </div>
+            <div class="col-lg-7" data-aos="fade-left">
+              <form id="fileForm" class="upload-zone">
+                <input id="fileInput" class="form-control" type="file" accept=".pdf,.docx,.txt,.jpg,.jpeg,.png,.pptx" />
+                <div class="d-flex flex-wrap gap-2 mt-3">
+                  <button class="btn btn-dark" type="submit">Translate file</button>
+                  <button id="clearFileBtn" class="btn btn-outline-dark" type="button">Clear file</button>
+                </div>
+                <div class="progress mt-4" role="progressbar" aria-label="File progress">
+                  <div id="fileProgress" class="progress-bar" style="width: 0%">0%</div>
+                </div>
+                <p id="fileStatus" class="mt-3 mb-0 text-muted">Waiting for file.</p>
+                <a id="fileDownload" class="btn btn-accent mt-3 d-none" href="#" download>Download translated file</a>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="api" class="section-pad bg-dark text-white">
+        <div class="container">
+          <p class="eyebrow">Django REST Framework</p>
+          <p class="eyebrow">API routes</p>
+          <h2 class="display-5 fw-black">Developed By Reka Natarajan</h2>
+          <div class="row g-4 mt-2">
+            <div class="col-md-4"><code>POST /api/translate-text/</code></div>
+            <div class="col-md-4"><code>POST /api/translate-file/</code></div>
+            <div class="col-md-4"><code>POST /api/speak-text/</code></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div id="toast" class="toast-message d-none"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="static/js/app.js?v=14"></script>
+  </body>
+</html>
